@@ -1,0 +1,4 @@
+Vlad|160|20
+Adrian|120|0
+Alex|165|22
+Tudor|50|0
