@@ -7,9 +7,7 @@ import com.fastrackit.SalaryRecipe.mapper.SalaryMapper;
 import com.fastrackit.SalaryRecipe.model.Employee;
 import com.fastrackit.SalaryRecipe.model.Salary;
 import com.fastrackit.SalaryRecipe.service.EmployeeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +43,9 @@ public class SalaryController {
         List<SalaryDTO> salaryDTOList = salaryList.stream().map(SalaryMapper::convertToDTO).toList();;
         return salaryDTOList;
     }
+
+
+
 
 
 
