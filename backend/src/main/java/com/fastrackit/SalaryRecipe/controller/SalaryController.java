@@ -22,7 +22,7 @@ public class SalaryController {
         this.service = service;
     }
 
-    @GetMapping("/employee/{employeeid}")
+    @GetMapping("/salary/{employeeid}")
     public SalaryDTO getSalaryforEmployee(@PathVariable Integer employeeid){
         Salary salary = service.getSalaryFromEmployee(employeeid);
         return SalaryMapper.convertToDTO(salary);
