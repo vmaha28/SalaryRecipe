@@ -24,7 +24,6 @@ const App: FC = () => {
 	const [employees, setEmployees] = useState<Employee[]>([]);
 	const [selectedEmployee, setSelectedEmployee] = useState<Employee>();
 	const [value, setValue] = React.useState(0);
-	const [dipslaySelect, setDisplaySelect] = useState<boolean>(false);
 
 	useEffect(() => {
 		axios
@@ -32,17 +31,8 @@ const App: FC = () => {
 			.then((response) => setEmployees(response.data)).then(()=> setSelectedEmployee(employees[0]))
 	}, []);
 
-	useEffect(() => {
-		if(selectedEmployee !== undefined){
-			setDisplaySelect(true);
-		}else{
-			setDisplaySelect(false);
-		}
-	}, [selectedEmployee]);
-
 	return (
 		<div className="App">
-			{dipslaySelect &&
 				<Box sx={{ flex: 'center', justifyContent: 'center' }}>
 					<h1>
 						<Typography> Please Select an Employee: </Typography>
@@ -72,7 +62,6 @@ const App: FC = () => {
 						</Select>
 					</FormControl>
 				</Box>
-			}
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 					<TableHead>
