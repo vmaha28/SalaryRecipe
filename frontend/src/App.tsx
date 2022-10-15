@@ -1,5 +1,10 @@
 import {
+	Box,
+	FormControl,
+	InputLabel,
+	MenuItem,
 	Paper,
+	Select,
 	Tab,
 	Table,
 	TableBody,
@@ -8,6 +13,7 @@ import {
 	TableHead,
 	TableRow,
 	Tabs,
+	Typography,
 } from '@mui/material';
 import axios from 'axios';
 import React, { FC, useEffect, useState } from 'react';
@@ -16,48 +22,111 @@ import { Employee } from './model/Employee';
 
 const App: FC = () => {
 	const [employees, setEmployees] = useState<Employee[]>([]);
-	const [singleEmployee, setEmployeeId] = useState<Employee>();
+	const [selectedEmployee, setSelectedEmployee] = useState<Employee>();
 	const [value, setValue] = React.useState(0);
+	const [dipslaySelect, setDisplaySelect] = useState<boolean>(false);
 
 	useEffect(() => {
 		axios
 			.get('http://localhost:8888/employee')
-			.then((response) => setEmployees(response.data));
+			.then((response) => setEmployees(response.data)).then(()=> setSelectedEmployee(employees[0]))
 	}, []);
+
+	useEffect(() => {
+		if(selectedEmployee !== undefined){
+			setDisplaySelect(true);
+		}else{
+			setDisplaySelect(false);
+		}
+	}, [selectedEmployee]);
 
 	return (
 		<div className="App">
+			{dipslaySelect &&
+				<Box sx={{ flex: 'center', justifyContent: 'center' }}>
+					<h1>
+						<Typography> Please Select an Employee: </Typography>
+					</h1>
+					<FormControl sx={{ m: 1, minWidth: 120 }}>
+						<InputLabel id="Employee-select-helper-label">
+							Employee
+						</InputLabel>
+						<Select
+							labelId="Employee-select-label"
+							id="Employee-simple-select"
+							value={JSON.stringify(selectedEmployee)}
+							autoWidth
+							label="Employees"
+							onChange={(e) => {
+								setSelectedEmployee(JSON.parse(e.target.value));
+							}}
+							renderValue={(employee) => {
+								return JSON.parse(employee).name;
+							}}
+						>
+							{employees.map((employee) => (
+								<MenuItem value={JSON.stringify(employee)}>
+									{employee.name}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+				</Box>
+			}
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 					<TableHead>
 						<TableRow>
 							<TableCell align="center">Name</TableCell>
-							<TableCell align="center">Hours worked</TableCell>
+							<TableCell align="center">Hours Worked</TableCell>
+							<TableCell align="center">OverTime Hours</TableCell>
 							<TableCell align="center">Base salary</TableCell>
+							<TableCell align="center">
+								OverTime salary
+							</TableCell>
+							<TableCell align="center">Increases</TableCell>
 							<TableCell align="center">Salary</TableCell>
 						</TableRow>
 					</TableHead>
-					<TableBody>
-						{employees.map((employee: Employee) => (
-							<TableRow
-								key={employee.name}
-					
-							>
+					{selectedEmployee && (
+						<TableBody>
+							<TableRow key={selectedEmployee.name}>
 								<TableCell align="center">
-									{employee.name}
+									{selectedEmployee.name}
 								</TableCell>
 								<TableCell align="center">
-									{employee.hoursWorked}
+									{selectedEmployee.hoursWorked}
 								</TableCell>
 								<TableCell align="center">
-									{employee.salary.baseSalaryPerHour}
+									{selectedEmployee.overtimeWorked}
 								</TableCell>
 								<TableCell align="center">
-									{employee.salary.baseSalaryPerHour * employee.hoursWorked}
+									{selectedEmployee.salary.baseSalaryPerHour}
+								</TableCell>
+								<TableCell align="center">
+									{selectedEmployee.salary.salaryOvertime}
+								</TableCell>
+								<TableCell align="center">
+									{selectedEmployee.salary.employeeIncreas}
+								</TableCell>
+								<TableCell align="center">
+									{(selectedEmployee.salary
+										.baseSalaryPerHour *
+										selectedEmployee.hoursWorked +
+										selectedEmployee.salary.salaryOvertime *
+											selectedEmployee.overtimeWorked) *
+										(selectedEmployee.salary
+											.employeeIncreas /
+											100) +
+										selectedEmployee.salary
+											.baseSalaryPerHour *
+											selectedEmployee.hoursWorked +
+										selectedEmployee.salary.salaryOvertime *
+											selectedEmployee.overtimeWorked}
 								</TableCell>
 							</TableRow>
-						))}
-					</TableBody>
+						</TableBody>
+					)}
 				</Table>
 			</TableContainer>
 		</div>

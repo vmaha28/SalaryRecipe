@@ -1,5 +1,6 @@
 package com.fastrackit.SalaryRecipe.service;
 
+import com.fastrackit.SalaryRecipe.exception.ResourceNotFoundException;
 import com.fastrackit.SalaryRecipe.model.Employee;
 import com.fastrackit.SalaryRecipe.model.Salary;
 import com.fastrackit.SalaryRecipe.repository.EmployeeRepository;
@@ -29,7 +30,11 @@ public class EmployeeService {
     }
 
     public Salary getSalaryFromEmployee(Integer employeeId){
-        return salaryRepository.findByEmployee_Id(employeeId);
+        Salary result = salaryRepository.findByEmployee_Id(employeeId);
+        if(result == null){
+            throw new ResourceNotFoundException("Invalid Employee ID");
+        }
+        return result;
     }
 
     public List<Salary> getAllSalaries(){
