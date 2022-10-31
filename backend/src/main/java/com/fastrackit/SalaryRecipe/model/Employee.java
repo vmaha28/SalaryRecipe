@@ -26,11 +26,6 @@ public class Employee {
     private Integer overtimeWorked;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee")
-//    @JoinTable(name = "emp_salary",
-//            joinColumns =
-//                    { @JoinColumn(name = "employee_id", referencedColumnName = "id") },
-//            inverseJoinColumns =
-//                    { @JoinColumn(name = "salary_id", referencedColumnName = "id") })
     private Salary salary;
 
     public Employee(String name, Integer hoursWorked, Integer overtimeWorked) {

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Table(name="salary")
-public class Salary {
+public class  Salary {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
