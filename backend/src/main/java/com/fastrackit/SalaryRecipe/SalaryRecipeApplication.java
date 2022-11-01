@@ -8,6 +8,7 @@ public class SalaryRecipeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SalaryRecipeApplication.class, args);
+
 	}
 
 }

@@ -42,7 +42,7 @@ public class JwtService implements UserDetailsService {
         return new JwtResponse(user, newGeneratedToken);
     }
 
-    //@Override
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findById(username).get();
 

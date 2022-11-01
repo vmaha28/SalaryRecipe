@@ -27,7 +27,7 @@ const App: FC = () => {
 
 	useEffect(() => {
 		axios
-			.get('http://localhost:8888/employee')
+			.get('http://localhost:8080/employee')
 			.then((response) => setEmployees(response.data)).then(()=> setSelectedEmployee(employees[0]))
 	}, []);
 

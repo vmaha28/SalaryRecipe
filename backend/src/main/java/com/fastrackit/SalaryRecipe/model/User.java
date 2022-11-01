@@ -1,5 +1,7 @@
 package com.fastrackit.SalaryRecipe.model;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Set;
 
