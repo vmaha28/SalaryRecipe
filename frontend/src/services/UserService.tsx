@@ -14,6 +14,9 @@ const getUserBoard = () => {
 
 const getAdminBoard = () => {
   return axiosService.get(API_URL + "forAdmin");
+
+
+  
 };
 
 const UserService = {

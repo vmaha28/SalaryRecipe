@@ -1,17 +1,14 @@
 package com.fastrackit.SalaryRecipe.controller;
 
-import com.fastrackit.SalaryRecipe.dto.EmployeeDTO;
 import com.fastrackit.SalaryRecipe.dto.SalaryDTO;
-import com.fastrackit.SalaryRecipe.mapper.EmployeeMapper;
 import com.fastrackit.SalaryRecipe.mapper.SalaryMapper;
-import com.fastrackit.SalaryRecipe.model.Employee;
 import com.fastrackit.SalaryRecipe.model.Salary;
-import com.fastrackit.SalaryRecipe.service.EmployeeService;
 import com.fastrackit.SalaryRecipe.service.SalaryService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class SalaryController {

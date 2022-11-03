@@ -4,6 +4,8 @@ const axiosService = axios.create();
 
 axiosService.interceptors.request.use(
 	(config: any) => {
+		console.log(config);
+
 		const jwtToken = localStorage.getItem('token');
 
 		if (jwtToken) {

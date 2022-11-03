@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EmployeeDTO {
-    private Integer id;
-    private String name;
-    private Integer hoursWorked;
-    private Integer overtimeWorked;
-    private SalaryDTO salary;
+public class RoleDTO {
+    private String roleName;
+
+    private String roleDescription;
 }
