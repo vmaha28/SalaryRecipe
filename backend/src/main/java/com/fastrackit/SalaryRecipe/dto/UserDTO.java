@@ -1,6 +1,5 @@
 package com.fastrackit.SalaryRecipe.dto;
 
-import com.fastrackit.SalaryRecipe.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
