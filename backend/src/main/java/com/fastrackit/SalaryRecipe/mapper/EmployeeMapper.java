@@ -14,4 +14,13 @@ public class EmployeeMapper {
                 .salary(SalaryMapper.convertToDTO(employee.getSalary()))
                 .build();
     }
+
+    public static Employee convertToEntity(EmployeeDTO employeeDTO){
+        return Employee.builder()
+                .id(employeeDTO.getId())
+                .name(employeeDTO.getName())
+                .hoursWorked(employeeDTO.getHoursWorked())
+                .overtimeWorked(employeeDTO.getOvertimeWorked())
+                .salary(SalaryMapper.convertToEntity(employeeDTO.getSalary())).build();
+    }
 }
