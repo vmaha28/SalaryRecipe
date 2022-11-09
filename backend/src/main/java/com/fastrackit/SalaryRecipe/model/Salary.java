@@ -1,16 +1,16 @@
 package com.fastrackit.SalaryRecipe.model;
 
 import com.fastrackit.SalaryRecipe.model.Employee;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name="salary")
 public class  Salary {
     @Id
