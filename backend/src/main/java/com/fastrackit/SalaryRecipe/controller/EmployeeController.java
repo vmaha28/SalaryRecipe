@@ -1,5 +1,6 @@
 package com.fastrackit.SalaryRecipe.controller;
 
+import com.fastrackit.SalaryRecipe.dto.CreateEmployeeDTO;
 import com.fastrackit.SalaryRecipe.dto.EmployeeDTO;
 import com.fastrackit.SalaryRecipe.mapper.EmployeeMapper;
 import com.fastrackit.SalaryRecipe.model.Employee;
@@ -49,9 +50,10 @@ public class EmployeeController {
     }
 
     @PutMapping("/employee/{id}")
-    public void giveFeedback(@PathVariable Integer id,
-                             @RequestBody  Employee employee){
-        service.postEmployee(id,employee);
+    public EmployeeDTO updateEmployee(@PathVariable Integer id,
+                             @RequestBody CreateEmployeeDTO employee){
+        Employee employeee=EmployeeMapper.convertToEntity(id,employee);
+       return  EmployeeMapper.convertToDTO(service.putEmployee(id,employeee));
     }
 
 

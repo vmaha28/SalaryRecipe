@@ -18,6 +18,8 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
+    private final SalaryService salaryService;
+
 
     public List<Employee> getAllEmployee() {
         return (List<Employee>) employeeRepository.findAll();
@@ -42,11 +44,20 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    public void postEmployee(Integer employeeId, Employee employee) {
-        employee.setHoursWorked(employee.getHoursWorked());
-        employee.setName(employee.getName());
-        employeeRepository.save(employee);
+    public Employee putEmployee(Integer employeeId, Employee employee) {
+//        employee.setId(employeeId);
+        employee.setSalary(salaryService.getSalaryFromEmployee(employeeId));
+       return employeeRepository.save(employee);
     }
+
+
+//    public void editEmployee(Integer employeeId, Employee employee) {
+//
+//        feedback.setId(feedbackId);
+//        feedback.setCourse(findFeedback(feedbackId).getCourse());
+//        feedback.setAuthor(userService.findUser(userId));
+//        feedbackRepository.save(feedback);
+//    }
 
 
 }

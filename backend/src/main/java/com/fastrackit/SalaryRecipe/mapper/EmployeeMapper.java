@@ -1,5 +1,6 @@
 package com.fastrackit.SalaryRecipe.mapper;
 
+import com.fastrackit.SalaryRecipe.dto.CreateEmployeeDTO;
 import com.fastrackit.SalaryRecipe.dto.EmployeeDTO;
 import com.fastrackit.SalaryRecipe.model.Employee;
 
@@ -22,5 +23,15 @@ public class EmployeeMapper {
                 .hoursWorked(employeeDTO.getHoursWorked())
                 .overtimeWorked(employeeDTO.getOvertimeWorked())
                 .salary(SalaryMapper.convertToEntity(employeeDTO.getSalary())).build();
+    }
+
+    public static Employee convertToEntity(Integer employeeId,CreateEmployeeDTO employee) {
+        return Employee.builder()
+                .id(employeeId)
+                .name(employee.getName())
+                .hoursWorked(employee.getHoursWorked())
+                .overtimeWorked(employee.getOvertimeWorked())
+                .build();
+
     }
 }
