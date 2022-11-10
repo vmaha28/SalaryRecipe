@@ -4,28 +4,44 @@ import {
 	InputLabel,
 	MenuItem,
 	Paper,
-	Select, Table,
+	Select,
+	SelectChangeEvent,
+	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
-	TableRow, Typography
+	TableRow,
+	Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+
 import { Employee } from '../model/Employee';
 import axiosService from '../services/AxiosService';
 
 const Users = () => {
 	const [employees, setEmployees] = useState<Employee[]>([]);
-	const [selectedEmployee, setSelectedEmployee] = useState<Employee>();
-	const [value, setValue] = React.useState(0);
+	const [displayedEmployees, setDisplayedEmployees] = useState<Employee[]>(
+		[]
+	);
+	const [selectedEmployee, setSelectedEmployee] = useState('');
 
 	useEffect(() => {
-		axiosService
-			.get('http://localhost:8888/employee')
-			.then((response) => setEmployees(response.data))
-			.then(() => setSelectedEmployee(employees[0]));
+		axiosService.get('http://localhost:8888/employee').then((response) => {
+			setEmployees(response.data);
+			setDisplayedEmployees(response.data);
+			setSelectedEmployee(response.data.length);
+		});
 	}, []);
+
+	const handleChange = (event: SelectChangeEvent) => {
+		setSelectedEmployee(event.target.value);
+		if (JSON.parse(event.target.value) === employees.length) {
+			setDisplayedEmployees(employees);
+		} else {
+			setDisplayedEmployees([employees[JSON.parse(event.target.value)]]);
+		}
+	};
 
 	return (
 		<div className="App">
@@ -40,21 +56,17 @@ const Users = () => {
 					<Select
 						labelId="Employee-select-label"
 						id="Employee-simple-select"
-						value={JSON.stringify(selectedEmployee)}
+						value={selectedEmployee}
+						onChange={handleChange}
 						autoWidth
 						label="Employees"
-						onChange={(e) => {
-							setSelectedEmployee(JSON.parse(e.target.value));
-						}}
-						renderValue={(employee) => {
-							return JSON.parse(employee).name;
-						}}
 					>
-						{employees.map((employee) => (
-							<MenuItem value={JSON.stringify(employee)}>
+						{employees.map((employee, index) => (
+							<MenuItem key={index} value={index}>
 								{employee.name}
 							</MenuItem>
 						))}
+						<MenuItem value={employees.length}>{'All'}</MenuItem>
 					</Select>
 				</FormControl>
 			</Box>
@@ -73,43 +85,42 @@ const Users = () => {
 							<TableCell align="center">Salary</TableCell>
 						</TableRow>
 					</TableHead>
-					{selectedEmployee && (
+					{displayedEmployees && (
 						<TableBody>
-							<TableRow key={selectedEmployee.name}>
-								<TableCell align="center">
-									{selectedEmployee.name}
-								</TableCell>
-								<TableCell align="center">
-									{selectedEmployee.hoursWorked}
-								</TableCell>
-								<TableCell align="center">
-									{selectedEmployee.overtimeWorked}
-								</TableCell>
-								<TableCell align="center">
-									{selectedEmployee.salary.baseSalaryPerHour}
-								</TableCell>
-								<TableCell align="center">
-									{selectedEmployee.salary.salaryOvertime}
-								</TableCell>
-								<TableCell align="center">
-									{selectedEmployee.salary.employeeIncreas}
-								</TableCell>
-								<TableCell align="center">
-									{(selectedEmployee.salary
-										.baseSalaryPerHour *
-										selectedEmployee.hoursWorked +
-										selectedEmployee.salary.salaryOvertime *
-											selectedEmployee.overtimeWorked) *
-										(selectedEmployee.salary
-											.employeeIncreas /
-											100) +
-										selectedEmployee.salary
-											.baseSalaryPerHour *
-											selectedEmployee.hoursWorked +
-										selectedEmployee.salary.salaryOvertime *
-											selectedEmployee.overtimeWorked}
-								</TableCell>
-							</TableRow>
+							{displayedEmployees.map((employee, index) => (
+								<TableRow key={index}>
+									<TableCell align="center">
+										{employee.name}
+									</TableCell>
+									<TableCell align="center">
+										{employee.hoursWorked}
+									</TableCell>
+									<TableCell align="center">
+										{employee.overtimeWorked}
+									</TableCell>
+									<TableCell align="center">
+										{employee.salary.baseSalaryPerHour}
+									</TableCell>
+									<TableCell align="center">
+										{employee.salary.salaryOvertime}
+									</TableCell>
+									<TableCell align="center">
+										{employee.salary.employeeIncreas}
+									</TableCell>
+									<TableCell align="center">
+										{(employee.salary.baseSalaryPerHour *
+											employee.hoursWorked +
+											employee.salary.salaryOvertime *
+												employee.overtimeWorked) *
+											(employee.salary.employeeIncreas /
+												100) +
+											employee.salary.baseSalaryPerHour *
+												employee.hoursWorked +
+											employee.salary.salaryOvertime *
+												employee.overtimeWorked}
+									</TableCell>
+								</TableRow>
+							))}
 						</TableBody>
 					)}
 				</Table>
