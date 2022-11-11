@@ -13,7 +13,7 @@ const App: FC = () => {
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<Login />} />
-					<Route path="users" element={<Users />} />
+					<Route path="users" element={<Users />} /> 
 				</Routes>
 			</BrowserRouter>
 		</React.StrictMode>

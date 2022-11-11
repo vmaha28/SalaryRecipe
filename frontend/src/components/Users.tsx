@@ -18,7 +18,8 @@ import {
 import React, { useEffect, useState } from 'react';
 
 import { Employee } from '../model/Employee';
-import axiosService from '../services/AxiosService';
+import UserService from '../services/UserService';
+import Pagination from './Pagination';
 
 const Users = () => {
 	const [employees, setEmployees] = useState<Employee[]>([]);
@@ -26,13 +27,19 @@ const Users = () => {
 		[]
 	);
 	const [selectedEmployee, setSelectedEmployee] = useState('');
+	const [pageSize, setPageSize] = useState(3);
+	const [pageIndex, setPageIndex] = useState(1);
+	const [totalRecords, setTotalRecords] = useState(0);
 
 	useEffect(() => {
-		axiosService.get('http://localhost:8888/employee').then((response) => {
-			setEmployees(response.data);
-			setDisplayedEmployees(response.data);
-			setSelectedEmployee(response.data.length);
-		});
+		UserService.getEmployeesPaginated(pageIndex - 1, pageSize).then(
+			(response) => {
+				setEmployees(response.data.results);
+				setDisplayedEmployees(response.data.results);
+				setSelectedEmployee(response.data.results.length);
+				setTotalRecords(response.data.totalRecords);
+			}
+		);
 	}, []);
 
 	const handleChange = (event: SelectChangeEvent) => {
@@ -44,21 +51,16 @@ const Users = () => {
 		}
 	};
 
-	const [page, setPage] = React.useState(2);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-	const handleChangePage = (
-		event: React.MouseEvent<HTMLButtonElement> | null,
-		newPage: number
-	) => {
-		setPage(newPage);
-	};
-
-	const handleChangeRowsPerPage = (
-		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		setRowsPerPage(parseInt(event.target.value, 10));
-		setPage(0);
+	const onPageChanged = (pageNumber: number) => {
+		console.log(pageNumber);
+		UserService.getEmployeesPaginated(pageNumber - 1, pageSize).then(
+			(response) => {
+				setEmployees(response.data.results);
+				setDisplayedEmployees(response.data.results);
+				setSelectedEmployee(response.data.results.length);
+				setTotalRecords(response.data.totalRecords);
+			}
+		);
 	};
 
 	return (
@@ -141,15 +143,13 @@ const Users = () => {
 							))}
 						</TableBody>
 					)}
-					<TablePagination
-						component="div"
-						count={2}
-						page={page}
-						onPageChange={handleChangePage}
-						rowsPerPage={rowsPerPage}
-						onRowsPerPageChange={handleChangeRowsPerPage}
-					/>
 				</Table>
+				<Pagination
+					totalRecords={totalRecords}
+					pageSize={pageSize}
+					pageIndex={pageIndex}
+					onPageChanged={onPageChanged}
+				></Pagination>
 			</TableContainer>
 		</div>
 	);

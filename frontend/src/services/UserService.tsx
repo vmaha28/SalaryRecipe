@@ -1,23 +1,30 @@
 import axiosService from './AxiosService';
 
-const API_URL = 'http://localhost:8888/';
-
 const getPublicContent = () => {
-	return axiosService.get(API_URL + 'employee');
+	return axiosService.get('employee');
 };
 
 const getUserBoard = () => {
-	return axiosService.get(API_URL + 'forUser');
+	return axiosService.get('forUser');
 };
 
 const getAdminBoard = () => {
-	return axiosService.get(API_URL + 'forAdmin');
+	return axiosService.get('forAdmin');
+};
+
+const getEmployeesPaginated = (pageIndex: number, pageSize: number) => {
+	const queryParams = {
+		pageIndex,
+		pageSize,
+	};
+	return axiosService.get('employee', { params: queryParams });
 };
 
 const UserService = {
 	getPublicContent,
 	getUserBoard,
 	getAdminBoard,
+	getEmployeesPaginated,
 };
 
 export default UserService;

@@ -33,8 +33,8 @@ public class EmployeeService {
         return result.get();
     }
 
-   public Page<Employee> findAll(){
-       Pageable firstPageWithTwoElements = PageRequest.of(0, 3);
+   public Page<Employee> findAll(int pageIndex, int pageSize){
+       Pageable firstPageWithTwoElements = PageRequest.of(pageIndex, pageSize);
        Page<Employee> pagedResult = employeeRepository.findAll(firstPageWithTwoElements);
 
        return pagedResult;
@@ -48,6 +48,10 @@ public class EmployeeService {
 //        employee.setId(employeeId);
         employee.setSalary(salaryService.getSalaryFromEmployee(employeeId));
        return employeeRepository.save(employee);
+    }
+
+    public long countTotalEmployees(){
+        return  employeeRepository.count();
     }
 
 
