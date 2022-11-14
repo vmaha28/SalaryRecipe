@@ -86,7 +86,7 @@
                     <user>root</user>
                     <password>12345678</password>
                     <schemas>
-                        <schema>salary_recipe_app</schema>
+                        <schema>salary_recipe</schema>
                     </schemas>
                 </configuration>
             </plugin>

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreateEmployeeDTO {
     private String name;
+    private String surname;
     private Integer hoursWorked;
     private Integer overtimeWorked;
 

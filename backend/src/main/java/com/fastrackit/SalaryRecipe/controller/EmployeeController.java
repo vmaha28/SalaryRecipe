@@ -7,8 +7,8 @@ import com.fastrackit.SalaryRecipe.mapper.EmployeeMapper;
 import com.fastrackit.SalaryRecipe.model.Employee;
 import com.fastrackit.SalaryRecipe.service.EmployeeService;
 import org.springframework.data.domain.Page;
-//import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class EmployeeController {
 
         Page<Employee> abc = service.findAll(pageIndex, pageSize);
         List<EmployeeDTO> employeeList = abc.getContent().stream().map(EmployeeMapper::convertToDTO).toList();
-        long totalEmployeesCount=service.countTotalEmployees();
+        long totalEmployeesCount = service.countTotalEmployees();
 
         return ListResultsDTO.<EmployeeDTO>builder()
                 .results(employeeList)
@@ -60,11 +60,30 @@ public class EmployeeController {
 
     @PutMapping("/employee/{id}")
     public EmployeeDTO updateEmployee(@PathVariable Integer id,
-                             @RequestBody CreateEmployeeDTO employee){
-        Employee employeee=EmployeeMapper.convertToEntity(id,employee);
-       return  EmployeeMapper.convertToDTO(service.putEmployee(id,employeee));
+                                      @RequestBody CreateEmployeeDTO employee) {
+        Employee employeee = EmployeeMapper.convertToEntity(id, employee);
+        return EmployeeMapper.convertToDTO(service.putEmployee(id, employeee));
     }
 
+    @GetMapping("/employee/findbyname")
+    public ResponseEntity<List<EmployeeDTO>> findByName(@RequestParam String keyword) {
 
+        return new ResponseEntity<>(service.findByName(keyword).stream().map(EmployeeMapper::convertToDTO).toList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/employee/search")
+    public ResponseEntity<List<EmployeeDTO>> findByNameAndSurname(@RequestParam String keyword) {
+
+        return new ResponseEntity<>(service.searchByMultipleFields(keyword).stream().map(EmployeeMapper::convertToDTO).toList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/employee/searchoptim")
+    public ListResultsDTO<EmployeeDTO> findByNameAndSurname(@RequestParam int pageIndex, @RequestParam int pageSize, @RequestParam String keyword){
+        List<EmployeeDTO> employeeDTOList=service.searchByMultipleFieldsOptim(keyword,pageIndex,pageSize).stream().map(EmployeeMapper::convertToDTO).toList();
+        return ListResultsDTO.<EmployeeDTO>builder()
+                .results(employeeDTOList)
+                .build();
+
+    }
 
 }

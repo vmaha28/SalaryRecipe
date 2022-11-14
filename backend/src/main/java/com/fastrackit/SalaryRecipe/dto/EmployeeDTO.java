@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class EmployeeDTO {
     private Integer id;
     private String name;
+    private String surname;
     private Integer hoursWorked;
     private Integer overtimeWorked;
     private SalaryDTO salary;

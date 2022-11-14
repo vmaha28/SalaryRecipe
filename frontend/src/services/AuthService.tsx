@@ -1,31 +1,34 @@
-import axiosService from "./AxiosService";
+import axiosService from './AxiosService';
 
-const API_URL = "http://localhost:8888/";
-
-const register = (username: string, userFirstName: string, userLastName: string, userPassword: string, role: string) => {
-  return axiosService.post(API_URL + "registerNewUser", {
-    username,
-    userFirstName,
-    userLastName,
-    userPassword,
-    role,
-
-  });
+const register = (
+	username: string,
+	userFirstName: string,
+	userLastName: string,
+	userPassword: string,
+	role: string
+) => {
+	return axiosService.post('registerNewUser', {
+		username,
+		userFirstName,
+		userLastName,
+		userPassword,
+		role,
+	});
 };
 
 const login = (username: string, userPassword: string) => {
-  return axiosService
-    .post(API_URL + "authenticate", {
-      userName: username,
-      userPassword,
-    })
-    .then((response) => {
-      if (response?.data?.jwtToken) {
-        localStorage.setItem("token", response.data.jwtToken);
-      }
+	return axiosService
+		.post('authenticate', {
+			userName: username,
+			userPassword,
+		})
+		.then((response) => {
+			if (response?.data?.jwtToken) {
+				localStorage.setItem('token', response.data.jwtToken);
+			}
 
-      return response.data;
-    });
+			return response.data;
+		});
 };
 
 // const logout = () => {
@@ -37,10 +40,10 @@ const login = (username: string, userPassword: string) => {
 // };
 
 const AuthService = {
-  register,
-  login,
-//   logout,
-//   getCurrentUser,
+	register,
+	login,
+	//   logout,
+	//   getCurrentUser,
 };
 
 export default AuthService;

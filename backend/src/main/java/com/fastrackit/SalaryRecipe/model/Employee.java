@@ -20,6 +20,9 @@ public class Employee {
     private Integer id;
     @Column
     private String name;
+
+    @Column
+    private String surname;
     @Column
     private Integer hoursWorked;
     @Column

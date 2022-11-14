@@ -3,10 +3,13 @@ package com.fastrackit.SalaryRecipe.service;
 import com.fastrackit.SalaryRecipe.exception.ResourceNotFoundException;
 import com.fastrackit.SalaryRecipe.model.Employee;
 import com.fastrackit.SalaryRecipe.repository.EmployeeRepository;
+import com.fastrackit.SalaryRecipe.repository.specifications.EmployeeSpecification;
+import com.fastrackit.SalaryRecipe.repository.specifications.SearchCriteria;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,6 +57,45 @@ public class EmployeeService {
         return  employeeRepository.count();
     }
 
+
+    public List<Employee> findByName(String keyword) {
+        EmployeeSpecification spec =
+                new EmployeeSpecification(SearchCriteria.builder().operation(":").key("name").value(keyword).build());
+
+
+        return  employeeRepository.findAll(spec);
+    }
+
+
+    public List<Employee> findByNameAndSurname(String name, String surname){
+        EmployeeSpecification spec1=
+                new EmployeeSpecification(SearchCriteria.builder().operation(":").key("name").value(name).build());
+        EmployeeSpecification spec2=
+                new EmployeeSpecification(SearchCriteria.builder().operation(":").key("surname").value(surname).build());
+
+        return employeeRepository.findAll(Specification.where(spec1).and(spec2));
+
+    }
+
+    public List<Employee> searchByMultipleFields(String keyword){
+        EmployeeSpecification spec1=
+                new EmployeeSpecification(SearchCriteria.builder().operation(":").key("name").value(keyword).build());
+        EmployeeSpecification spec2=
+                new EmployeeSpecification(SearchCriteria.builder().operation(":").key("surname").value(keyword).build());
+
+        return employeeRepository.findAll(Specification.where(spec1).or(spec2));
+
+    }
+
+    public Page<Employee> searchByMultipleFieldsOptim(String keyword, int pageNumber, int pageSize){
+        EmployeeSpecification spec1=
+                new EmployeeSpecification(SearchCriteria.builder().operation(":").key("name").value(keyword).build());
+        EmployeeSpecification spec2=
+                new EmployeeSpecification(SearchCriteria.builder().operation(":").key("surname").value(keyword).build());
+
+        return employeeRepository.findAll(Specification.where(spec1).or(spec2),PageRequest.of(pageNumber,pageSize));
+
+    }
 
 //    public void editEmployee(Integer employeeId, Employee employee) {
 //

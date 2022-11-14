@@ -95,6 +95,7 @@ const Users = () => {
 					<TableHead>
 						<TableRow>
 							<TableCell align="center">Name</TableCell>
+							<TableCell align="center">Surname</TableCell>
 							<TableCell align="center">Hours Worked</TableCell>
 							<TableCell align="center">OverTime Hours</TableCell>
 							<TableCell align="center">Base salary</TableCell>
@@ -111,6 +112,9 @@ const Users = () => {
 								<TableRow key={index}>
 									<TableCell align="center">
 										{employee.name}
+									</TableCell>
+									<TableCell align="center">
+										{employee.surname}
 									</TableCell>
 									<TableCell align="center">
 										{employee.hoursWorked}

@@ -11,6 +11,7 @@ public class EmployeeMapper {
                 .id(employee.getId())
                 .hoursWorked(employee.getHoursWorked())
                 .name(employee.getName())
+                .surname(employee.getSurname())
                 .overtimeWorked(employee.getOvertimeWorked())
                 .salary(SalaryMapper.convertToDTO(employee.getSalary()))
                 .build();
@@ -20,6 +21,7 @@ public class EmployeeMapper {
         return Employee.builder()
                 .id(employeeDTO.getId())
                 .name(employeeDTO.getName())
+                .surname(employeeDTO.getSurname())
                 .hoursWorked(employeeDTO.getHoursWorked())
                 .overtimeWorked(employeeDTO.getOvertimeWorked())
                 .salary(SalaryMapper.convertToEntity(employeeDTO.getSalary())).build();
@@ -29,6 +31,7 @@ public class EmployeeMapper {
         return Employee.builder()
                 .id(employeeId)
                 .name(employee.getName())
+                .surname(employee.getSurname())
                 .hoursWorked(employee.getHoursWorked())
                 .overtimeWorked(employee.getOvertimeWorked())
                 .build();

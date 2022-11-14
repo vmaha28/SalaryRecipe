@@ -1,10 +1,11 @@
-import { Salary } from "./Salary"
+import { Salary } from './Salary';
 
-export interface Employee{
-    id: number
-    name: string
-    hoursWorked: number
-    overtimeWorked: number
-    salary: Salary
+export interface Employee {
+	id: number;
+
+	name: string;
+	surname: string;
+	hoursWorked: number;
+	overtimeWorked: number;
+	salary: Salary;
 }
-
