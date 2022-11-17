@@ -78,12 +78,16 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/searchoptim")
-    public ListResultsDTO<EmployeeDTO> findByNameAndSurname(@RequestParam int pageIndex, @RequestParam int pageSize, @RequestParam String keyword){
-        List<EmployeeDTO> employeeDTOList=service.searchByMultipleFieldsOptim(keyword,pageIndex,pageSize).stream().map(EmployeeMapper::convertToDTO).toList();
+    public ListResultsDTO<EmployeeDTO> findByNameAndSurname(@RequestParam int pageIndex, @RequestParam int pageSize, @RequestParam String keyword) {
+        List<EmployeeDTO> employeeDTOList = service.searchByMultipleFieldsOptim(keyword, pageIndex, pageSize).stream().map(EmployeeMapper::convertToDTO).toList();
         return ListResultsDTO.<EmployeeDTO>builder()
                 .results(employeeDTOList)
                 .build();
 
     }
+
+
+
+
 
 }
